@@ -28,7 +28,7 @@ function buildGrid() {
   let tbody = document.createElement('tbody');
   // LOOP THROUGH THE ARRAY OF EMPLOYEES
   // REBUILDING THE ROW STRUCTURE
-  fetch('../data/employees.json')
+  fetch('/data/employees.json')
     .then((response) => response.json())
     .then((data) => {
       for (let employee of data.employees) {
