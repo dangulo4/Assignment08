@@ -1,3 +1,5 @@
+import * as employees from './modules/init.js';
+
 // GET DOM ELEMENTS
 let empTable = document.querySelector('#employees');
 let empCount = document.querySelector('#empCount');
@@ -28,11 +30,9 @@ function buildGrid() {
   let tbody = document.createElement('tbody');
   // LOOP THROUGH THE ARRAY OF EMPLOYEES
   // REBUILDING THE ROW STRUCTURE
-  fetch('/data/employees.json')
-    .then((response) => response.json())
-    .then((data) => {
-      for (let employee of data.employees) {
-        tbody.innerHTML += `
+  employees.fetchUsers().then((data) => {
+    for (let employee of data.employees) {
+      tbody.innerHTML += `
           <tr>
               <td>${employee.id}</td>
               <td>${employee.name}</td>
@@ -42,11 +42,12 @@ function buildGrid() {
               <td><button class="btn btn-sm btn-danger delete">X</button></td>
           </tr>
           `;
-        // UPDATE EMPLOYEE COUNT
-        empCount.value = `(${empTable.tBodies[0].rows.length})`;
-      }
-    })
-    .catch((error) => console.log(error.message));
+    }
+    // UPDATE EMPLOYEE COUNT
+    // empCount.value = `(${empTable.tBodies[0].rows.length})`;
+    empCount.value = `(${data.employees.length})`;
+  });
+
   // BIND THE TBODY TO THE EMPLOYEE TABLE
   empTable.appendChild(tbody);
 }
